@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ModernVedur.Models;
 using System.Xml.Linq;
@@ -6,34 +7,53 @@ namespace ModernVedur.Pages
 {
     public class WeatherModel : PageModel
     {
-        public List<WeatherStation> WeatherStations { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public int StationId { get; set; }
+
+        public WeatherObservation Observation { get; set; }
 
         public async Task OnGetAsync()
         {
-            WeatherStations = new List<WeatherStation>();
+            if (StationId <= 0)
+            {
+                // No station ID provided; do not fetch data.
+                return;
+            }
 
             using (var httpClient = new HttpClient())
             {
-                var response = await httpClient.GetAsync("https://xmlweather.vedur.is/?op_w=xml&type=forec-info&lang=is&view=xml");
+                var apiUrl = $"https://xmlweather.vedur.is/?op_w=xml&type=obs&lang=en&view=xml&ids={StationId}";
+
+                var response = await httpClient.GetAsync(apiUrl);
                 if (response.IsSuccessStatusCode)
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     XDocument doc = XDocument.Parse(apiResponse);
 
-                    WeatherStations = doc.Descendants("model")
-                        .Select(m => new WeatherStation
+                    var stationElement = doc.Descendants("station").FirstOrDefault();
+                    if (stationElement != null)
+                    {
+                        Observation = new WeatherObservation
                         {
-                            Name = m.Element("name")?.Value,
-                            Atime = DateTime.TryParse(m.Element("atime")?.Value, out var atime) ? atime : DateTime.MinValue,
-                            IsFilterTemperature = int.TryParse(m.Element("is_filter_temperature")?.Value, out var temp) ? temp : 0,
-                            IsFilterWind = int.TryParse(m.Element("is_filter_wind")?.Value, out var wind) ? wind : 0,
-                            IsFilterPrecipitation = int.TryParse(m.Element("is_filter_precipitation")?.Value, out var precip) ? precip : 0
-                        })
-                        .ToList();
+                            StationId = int.TryParse(stationElement.Attribute("id")?.Value, out var id) ? id : 0,
+                            Name = stationElement.Element("name")?.Value,
+                            Time = DateTime.TryParse(stationElement.Element("time")?.Value, out var time) ? time : DateTime.MinValue,
+                            Link = stationElement.Element("link")?.Value,
+                            F = stationElement.Element("F")?.Value,
+                            D = stationElement.Element("D")?.Value,
+                            FX = stationElement.Element("FX")?.Value,
+                            FG = stationElement.Element("FG")?.Value,
+                            T = stationElement.Element("T")?.Value,
+                            W = stationElement.Element("W")?.Value,
+                            V = stationElement.Element("V")?.Value,
+                            R = stationElement.Element("R")?.Value,
+                        };
+                    }
                 }
                 else
                 {
-                    // Handle error
+                    // Handle error response
+                    ModelState.AddModelError(string.Empty, "Unable to fetch data from the weather API.");
                 }
             }
         }
