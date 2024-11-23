@@ -1,0 +1,43 @@
+﻿@page
+@model ModernVedur.Pages.WeatherModel
+@{
+    ViewData["Title"] = "Weather";
+}
+
+<div class="text-center">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Skoða veður" aria-label="station" aria-describedby="basic-addon1">
+        <button type="button" class="btn btn-primary">Finna</button>
+    </div>
+</div>
+
+@if (Model.WeatherStations != null && Model.WeatherStations.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Temperature</th>
+                <th>Wind Speed</th>
+                <th>Precipitation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var station in Model.WeatherStations)
+            {
+                <tr>
+                    <td>@station.Name</td>
+                    <td>@station.Atime.ToString("g")</td>
+                    <td>@station.IsFilterTemperature</td>
+                    <td>@station.IsFilterWind</td>
+                    <td>@station.IsFilterPrecipitation</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No data available.</p>
+}

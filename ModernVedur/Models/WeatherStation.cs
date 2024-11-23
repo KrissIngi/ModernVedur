@@ -4,10 +4,10 @@ namespace ModernVedur.Models
 {
     public class WeatherStation
     {
-        public string? name { get; set; }
-        public DateTime? date { get; set; }
-        public int temperature {  get; set; }
-        public int windSpeed { get; set; }
-        public int precipation { get; set; }
+        public string Name { get; set; }
+        public DateTime Atime { get; set; }
+        public int IsFilterTemperature { get; set; }
+        public int IsFilterWind { get; set; }
+        public int IsFilterPrecipitation { get; set; }
     }
 }
