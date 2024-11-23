@@ -8,7 +8,7 @@
 
 <form method="get">
     <div class="input-group mb-3">
-        <input class="form-control" list="stations" name="StationName" id="StationName" placeholder="Leitaðu hér og veldu veðurstöð" onchange="this.form.submit()" value="@Model.SelectedStationName">
+        <input class="form-control" list="stations" name="StationName" id="StationName" placeholder="Leitaðu hér og veldu veðurstöð" value="@Model.SelectedStationName">
         <datalist id="stations">
             @foreach (var station in Model.Stations)
             {
