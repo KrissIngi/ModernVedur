@@ -8,7 +8,7 @@
 
 <form method="get">
     <div class="input-group mb-3">
-        <input class="form-control" list="stations" name="StationName" id="StationName" placeholder="Veldu veðurstöð" onchange="this.form.submit()" value="@Model.SelectedStationName">
+        <input class="form-control" list="stations" name="StationName" id="StationName" placeholder="Leitaðu hér og veldu veðurstöð" onchange="this.form.submit()" value="@Model.SelectedStationName">
         <datalist id="stations">
             @foreach (var station in Model.Stations)
             {
@@ -57,7 +57,7 @@
             </div>
 
             <div class="map-column" id="MapColumn">
-                <script type="text/javascript" src="http://vedur.is/js/iframe.js"></script>
+                <script type="text/javascript" src="\js\iframe.js"></script>
                 <script type="text/javascript">
                     VI.ifrm.type = 'wst';
                     VI.ifrm.area = @Model.Observation.StationId;
