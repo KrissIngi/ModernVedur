@@ -29,3 +29,32 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* Custom CSS for Weather page */
+.transition-container {
+    display: flex;
+    transition: all 0.5s ease-in-out;
+}
+
+.weather-column {
+    flex-basis: 100%;
+    transition: all 0.5s ease-in-out;
+}
+
+.weather-column.shrink {
+    flex-basis: 60%;
+}
+
+.map-column {
+    flex-basis: 0%;
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+}
+
+.map-column.show {
+    flex-basis: 100%;
+    max-width: 100%;
+    opacity: 1;
+}

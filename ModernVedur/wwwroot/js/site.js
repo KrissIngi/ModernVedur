@@ -1,4 +1,16 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿// Custom JS code for Weather page.
+// Function used to show the map when clicking 'Sýna kort' used with transition for better UI experience.
+function showMap() {
+    var mapDiv = document.getElementById('MapColumn');
+    mapDiv.classList.add('show');
+    document.getElementById('ShowButton').style.display = 'none';
+    document.getElementById('HideButton').style.display = '';
+}
 
-// Write your JavaScript code.
+// Function used to hide the map when clicking 'Fela kort' used with transition for better UI experience.
+function hideMap() {
+    var mapDiv = document.getElementById('MapColumn');
+    mapDiv.classList.remove('show');
+    document.getElementById('ShowButton').style.display = '';
+    document.getElementById('HideButton').style.display = 'none';
+}

@@ -4,21 +4,27 @@
     ViewData["Title"] = "Weather";
 }
 
-<h2>Weather Observation</h2>
+<h2>Veðrið í dag</h2>
 
 <form method="get">
     <div class="input-group mb-3">
-        <input type="text" class="form-control" name="StationId" value="@Model.StationId" placeholder="Enter Station ID" aria-label="StationId" />
-        <button type="submit" class="btn btn-primary">Leita</button>
+        <input class="form-control" list="stations" name="StationName" id="StationName" placeholder="Veldu veðurstöð" onchange="this.form.submit()" value="@Model.SelectedStationName">
+        <datalist id="stations">
+            @foreach (var station in Model.Stations)
+            {
+                <option value="@station.Name"></option>
+            }
+        </datalist>
+        <button type="submit" class="btn btn-primary">Sækja veður</button>
     </div>
 </form>
+
 
 @if (Model.Observation != null)
 {
     <div class="container text-center">
-        <div class="row">
-            <div class="col">
-
+        <div class="transition-container">
+            <div class="weather-column" id="WeatherColumn">
                 <table class="table">
                     <tr>
                         <th>Stöðvarnafn</th>
@@ -45,12 +51,14 @@
                         <td>@Model.Observation.R</td>
                     </tr>
                 </table>
-                <button type="button" onclick="document.getElementById('MapColumn').style.display = ''" class="btn btn-primary">Sjá kort</button>
+
+                <button type="button" onclick="showMap()" id="ShowButton" class="btn btn-primary">Sjá kort</button>
+                <button type="button" onclick="hideMap()" id="HideButton" class="btn btn-info" style="display: none;">Fela kort</button>
             </div>
-            <div class="col" id="MapColumn"style="display: none">
+
+            <div class="map-column" id="MapColumn">
                 <script type="text/javascript" src="http://vedur.is/js/iframe.js"></script>
                 <script type="text/javascript">
-                    <!--
                     VI.ifrm.type = 'wst';
                     VI.ifrm.area = @Model.Observation.StationId;
                     VI.ifrm.lang = 'is';
@@ -59,11 +67,8 @@
             </div>
         </div>
     </div>
-
-
-
 }
 else if (Model.StationId > 0)
 {
-    <p>No data available for station ID @Model.StationId.</p>
+    <p>Veðurstöð fannst ekki.</p>
 }

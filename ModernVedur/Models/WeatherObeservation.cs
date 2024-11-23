@@ -5,6 +5,7 @@
         public int StationId { get; set; }
         public string Name { get; set; }
         public DateTime Time { get; set; }
+        public DateTime ftime { get; set; }
         public string Link { get; set; }
         public string F { get; set; } // Wind speed
 
