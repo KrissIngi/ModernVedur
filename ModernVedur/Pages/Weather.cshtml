@@ -51,11 +51,11 @@
                     </tr>
                 </table>
 
-                <button type="button" onclick="showFutureWeather()" name="LoadFutureForecast" id="showFutureButton" value="true" class="btn btn-primary">Spá næstu daga</button>
-                <button type="button" onclick="hideFutureWeather()" name="LoadFutureForecast" id="hideFutureButton" value="true" class="btn btn-info" style="display: none;">Fela spá næstu daga</button>
-                
-                <button type="button" onclick="showMap()" id="ShowButton" class="btn btn-primary" style="display: none;">Sjá kort</button>
-                <button type="button" onclick="hideMap()" id="HideButton" class="btn btn-info">Fela kort</button>
+                <button type="button" onclick="show('FutureWeatherColumn','FutureButton')" name="LoadFutureForecast" id="showFutureButton" value="true" class="btn btn-primary">Spá næstu daga</button>
+                <button type="button" onclick="hide('FutureWeatherColumn','FutureButton')" name="LoadFutureForecast" id="hideFutureButton" value="true" class="btn btn-info" style="display: none;">Fela spá næstu daga</button>
+
+                <button type="button" onclick="show('MapColumn','MapButton')" id="showMapButton" class="btn btn-primary" style="display: none;">Sjá kort</button>
+                <button type="button" onclick="hide('MapColumn','MapButton')" id="hideMapButton" class="btn btn-info">Fela kort</button>
             </div>
 
             <div class="map-column show" id="MapColumn" >
