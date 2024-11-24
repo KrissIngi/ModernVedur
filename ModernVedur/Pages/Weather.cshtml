@@ -51,6 +51,12 @@
                     </tr>
                 </table>
 
+                <form method="get">
+                    <input type="hidden" name="StationId" value="@Model.StationId" />
+                    <input type="hidden" name="StationName" value="@Model.SelectedStationName" />
+                    <button type="submit" name="LoadFutureForecast" value="true" class="btn btn-secondary">Spá næstu daga</button>
+                </form>
+
                 <button type="button" onclick="showMap()" id="ShowButton" class="btn btn-primary">Sjá kort</button>
                 <button type="button" onclick="hideMap()" id="HideButton" class="btn btn-info" style="display: none;">Fela kort</button>
             </div>
@@ -66,8 +72,42 @@
             </div>
         </div>
     </div>
+
+    @if (Model.FutureForecast != null)
+    {
+        <div class="container text-center">
+            <div class="transition-container">
+                <div class="weather-column" id="WeatherColumn">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tími</th>
+                                <th>Hitastig</th>
+                                <th>Vindhraði</th>
+                                <th>Vindátt</th>
+                                <th>Veður</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var forcast in Model.FutureForecast)
+                            {
+                                <tr>
+                                    <td>@forcast.ftime.ToString("g")</td>
+                                    <td>@forcast.T °</td>
+                                    <td>@forcast.F m/s</td>
+                                    <td>@forcast.D</td>
+                                    <td>@forcast.W</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
 }
 else if (Model.StationId > 0)
 {
     <p>Veðurstöð fannst ekki.</p>
 }
+

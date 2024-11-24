@@ -12,10 +12,12 @@ namespace ModernVedur.Pages
         public int StationId { get; set; }
         [BindProperty(SupportsGet = true)]
         public string StationName { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public bool LoadFutureForecast { get; set; }
 
         public List<StationInfo> Stations { get; set; }
-
         public WeatherObservation Observation { get; set; }
+        public List<WeatherFutureForecast> FutureForecast { get; set; }
 
         public string SelectedStationName { get; set; }
 
@@ -23,7 +25,8 @@ namespace ModernVedur.Pages
         {
             Stations = StationData.Stations;
 
-            if (StationId == 0 && !string.IsNullOrEmpty(StationName)) {
+            if (StationId == 0 && !string.IsNullOrEmpty(StationName))
+            {
                 var station = Stations.FirstOrDefault(S => S.Name.Equals(StationName, StringComparison.OrdinalIgnoreCase));
                 if (station != null)
                 {
@@ -37,7 +40,7 @@ namespace ModernVedur.Pages
                 return;
             }
 
-            //SelectedStationName = Stations.FirstOrDefault(s => s.Id == StationId)?.Name; Uncommented out as this is not used as of yet.
+            SelectedStationName = Stations.FirstOrDefault(s => s.Id == StationId)?.Name;
 
             using (var httpClient = new HttpClient())
             {
@@ -68,11 +71,46 @@ namespace ModernVedur.Pages
                             R = stationElement.Element("R")?.Value,
                         };
                     }
-                }
-                else
-                {
-                    // Handle error response
-                    ModelState.AddModelError(string.Empty, "Unable to fetch data from the weather API.");
+                    else
+                    {
+                        // Handle error response
+                        ModelState.AddModelError(string.Empty, "Unable to fetch data from the weather API.");
+                    }
+
+                    if(LoadFutureForecast)
+                    {
+                        var apiUrlFuture = $"https://xmlweather.vedur.is/?op_w=xml&type=forec&lang=is&view=xml&ids={StationId}";
+                        var Futureresponse = await httpClient.GetAsync(apiUrlFuture);
+
+                        if (Futureresponse.IsSuccessStatusCode)
+                        {
+                            string apiResponseFuture = await Futureresponse.Content.ReadAsStringAsync();
+                            XDocument docFuture = XDocument.Parse(apiResponseFuture);
+
+                            var stationElementFuture = docFuture.Descendants("station").FirstOrDefault();
+
+                            if (stationElementFuture != null)
+                            {
+                                FutureForecast = new List<WeatherFutureForecast>();
+
+                                var forecastElements = stationElementFuture.Elements("forecast");
+
+                                foreach (var forecastElement in forecastElements)
+                                {
+                                    var futureForcast = new WeatherFutureForecast
+                                    {
+                                        ftime = DateTime.TryParse(forecastElement.Element("ftime")?.Value, out var time) ? time : DateTime.MinValue,
+                                        F = forecastElement.Element("F")?.Value,
+                                        D = forecastElement.Element("D")?.Value,
+                                        T = forecastElement.Element("T")?.Value,
+                                        W = forecastElement.Element("W")?.Value,
+                                    };
+
+                                    FutureForecast.Add(futureForcast);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
