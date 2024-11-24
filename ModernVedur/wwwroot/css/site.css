@@ -58,3 +58,18 @@ body {
     max-width: 100%;
     opacity: 1;
 }
+
+/* Custom CSS for Weather page */
+.future-weather-column {
+    transform: scaleY(0);
+    transform-origin: bottom;
+    opacity: 0;
+    overflow: hidden;
+    flex-basis: 100%;
+    transition: all 0.5s ease-in-out;
+}
+
+.future-weather-column.show {
+    transform: scaleY(1);
+    opacity: 1;
+}

@@ -51,23 +51,60 @@
                     </tr>
                 </table>
 
-                <button type="button" onclick="showMap()" id="ShowButton" class="btn btn-primary">Sjá kort</button>
-                <button type="button" onclick="hideMap()" id="HideButton" class="btn btn-info" style="display: none;">Fela kort</button>
+                <button type="button" onclick="show('FutureWeatherColumn','FutureButton')" name="LoadFutureForecast" id="showFutureButton" value="true" class="btn btn-primary">Spá næstu daga</button>
+                <button type="button" onclick="hide('FutureWeatherColumn','FutureButton')" name="LoadFutureForecast" id="hideFutureButton" value="true" class="btn btn-info" style="display: none;">Fela spá næstu daga</button>
+
+                <button type="button" onclick="show('MapColumn','MapButton')" id="showMapButton" class="btn btn-primary" style="display: none;">Sjá kort</button>
+                <button type="button" onclick="hide('MapColumn','MapButton')" id="hideMapButton" class="btn btn-info">Fela kort</button>
             </div>
 
-            <div class="map-column" id="MapColumn">
+            <div class="map-column show" id="MapColumn" >
                 <script type="text/javascript" src="\js\iframe.js"></script>
                 <script type="text/javascript">
                     VI.ifrm.type = 'wst';
-                    VI.ifrm.area = @Model.Observation.StationId;
+                    VI.ifrm.area = @Model.Observation.AreaId;
                     VI.ifrm.lang = 'is';
                     VI.ifrm.displayWeather();
                 </script>
             </div>
         </div>
     </div>
+
+    @if (Model.FutureForecast != null)
+    {
+        <div class="container text-center">
+            <div class="transition-container">
+                <div class="future-weather-column" id="FutureWeatherColumn">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tími</th>
+                                <th>Hitastig</th>
+                                <th>Vindhraði</th>
+                                <th>Vindátt</th>
+                                <th>Veður</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var forcast in Model.FutureForecast)
+                            {
+                                <tr>
+                                    <td>@forcast.ftime.ToString("g")</td>
+                                    <td>@forcast.T °</td>
+                                    <td>@forcast.F m/s</td>
+                                    <td>@forcast.D</td>
+                                    <td>@forcast.W</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
 }
 else if (Model.StationId > 0)
 {
     <p>Veðurstöð fannst ekki.</p>
 }
+
