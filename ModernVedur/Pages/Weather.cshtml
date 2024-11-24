@@ -57,15 +57,15 @@
                     <button type="submit" name="LoadFutureForecast" value="true" class="btn btn-secondary">Spá næstu daga</button>
                 </form>
 
-                <button type="button" onclick="showMap()" id="ShowButton" class="btn btn-primary">Sjá kort</button>
-                <button type="button" onclick="hideMap()" id="HideButton" class="btn btn-info" style="display: none;">Fela kort</button>
+                <button type="button" onclick="showMap()" id="ShowButton" class="btn btn-primary" style="display: none;">Sjá kort</button>
+                <button type="button" onclick="hideMap()" id="HideButton" class="btn btn-info">Fela kort</button>
             </div>
 
-            <div class="map-column" id="MapColumn">
+            <div class="map-column show" id="MapColumn" >
                 <script type="text/javascript" src="\js\iframe.js"></script>
                 <script type="text/javascript">
                     VI.ifrm.type = 'wst';
-                    VI.ifrm.area = @Model.Observation.StationId;
+                    VI.ifrm.area = @Model.Observation.AreaId;
                     VI.ifrm.lang = 'is';
                     VI.ifrm.displayWeather();
                 </script>

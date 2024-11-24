@@ -21,6 +21,10 @@ namespace ModernVedur.Pages
 
         public string SelectedStationName { get; set; }
 
+        /// <summary>
+        /// Main method/function that handles the data gathering, keeps track of the parameters,
+        /// and orchestrates the program flow.
+        /// </summary
         public async Task OnGetAsync()
         {
             Stations = StationData.Stations;
@@ -87,6 +91,7 @@ namespace ModernVedur.Pages
                     W = stationElement.Element("W")?.Value,
                     V = stationElement.Element("V")?.Value,
                     R = stationElement.Element("R")?.Value,
+                    AreaId = Stations.FirstOrDefault(s => s.Id == StationId)?.AreaId ?? 101
                 };
             }
             else

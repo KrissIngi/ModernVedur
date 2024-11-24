@@ -16,5 +16,7 @@
         public string W { get; set; } // Weather description
         public string V { get; set; } // Visibility
         public string R { get; set; } //Precipitation
+
+        public int AreaId { get; set; } // Used for mapping the map to the correct place
     }
 }
