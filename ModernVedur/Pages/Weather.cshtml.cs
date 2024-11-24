@@ -37,7 +37,7 @@ namespace ModernVedur.Pages
                 return;
             }
 
-            SelectedStationName = Stations.FirstOrDefault(s => s.Id == StationId)?.Name;
+            //SelectedStationName = Stations.FirstOrDefault(s => s.Id == StationId)?.Name; Uncommented out as this is not used as of yet.
 
             using (var httpClient = new HttpClient())
             {
