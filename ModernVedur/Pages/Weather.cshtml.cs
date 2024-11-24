@@ -53,12 +53,13 @@ namespace ModernVedur.Pages
                 var response = await httpClient.GetAsync(apiUrl);
                 if (response.IsSuccessStatusCode)
                 {
+
                     await getWeatherStationData(response);
 
-                    if (LoadFutureForecast)
-                    {
-                        await getFutureWeatherData(httpClient);
-                    }
+                    ///if (LoadFutureForecast)
+                    //{
+                    await getFutureWeatherData(httpClient);
+                    //}
                 }
             }
         }
