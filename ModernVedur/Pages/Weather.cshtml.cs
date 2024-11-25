@@ -27,8 +27,10 @@ namespace ModernVedur.Pages
         /// </summary
         public async Task OnGetAsync()
         {
+            // Create a list of stations from the station Data file.
             Stations = StationData.Stations;
 
+            // If there is no Station id and Station name has value then we look for that station in our Stations list.
             if (StationId == 0 && !string.IsNullOrEmpty(StationName))
             {
                 var station = Stations.FirstOrDefault(S => S.Name.Equals(StationName, StringComparison.OrdinalIgnoreCase));
@@ -38,28 +40,31 @@ namespace ModernVedur.Pages
                 }
             }
 
+            // No station ID provided; do not fetch data.
             if (StationId <= 0)
             {
-                // No station ID provided; do not fetch data.
+
                 return;
             }
 
+            // This is used to keep track of the station selected, and display it in the search box.
             SelectedStationName = Stations.FirstOrDefault(s => s.Id == StationId)?.Name;
 
             using (var httpClient = new HttpClient())
             {
+                // Call the endpoint for the current weather data.
                 var apiUrl = $"https://xmlweather.vedur.is/?op_w=xml&type=obs&lang=is&view=xml&ids={StationId}";
 
+                // Load the endpoint.
                 var response = await httpClient.GetAsync(apiUrl);
                 if (response.IsSuccessStatusCode)
                 {
 
+                    // Used for getting the current weather data for a particular weather station.
                     await getWeatherStationData(response);
 
-                    ///if (LoadFutureForecast)
-                    //{
+                    // Used to get data from the Vedur API endpoint that has the weather data for a weather station for the next few days
                     await getFutureWeatherData(httpClient);
-                    //}
                 }
             }
         }
@@ -109,6 +114,7 @@ namespace ModernVedur.Pages
         /// <returns>A task that represents the asynchronous operation.</returns>
         private async Task getFutureWeatherData(HttpClient httpClient)
         {
+            // Load the data from the endpoint that has the data for the next few days.
             var apiUrlFuture = $"https://xmlweather.vedur.is/?op_w=xml&type=forec&lang=is&view=xml&ids={StationId}";
             var Futureresponse = await httpClient.GetAsync(apiUrlFuture);
 
@@ -121,10 +127,12 @@ namespace ModernVedur.Pages
 
                 if (stationElementFuture != null)
                 {
+                    // Create a future forecast list.
                     FutureForecast = new List<WeatherFutureForecast>();
 
                     var forecastElements = stationElementFuture.Elements("forecast");
 
+                    // Loop through the forecasts for the station and save the values into FutureForecast list.
                     foreach (var forecastElement in forecastElements)
                     {
                         var futureForcast = new WeatherFutureForecast

@@ -59,7 +59,6 @@ body {
     opacity: 1;
 }
 
-/* Custom CSS for Weather page */
 .future-weather-column {
     transform: scaleY(0);
     transform-origin: bottom;
