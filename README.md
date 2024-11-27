@@ -26,9 +26,9 @@ To build a final version of the application/project you will have to publish it,
 8. And now you have a program running on your computer, through http://localhost:5000. Congratz!
 
 # Endpoints used
-- API Veður.is ReadMe - https://vedur.is/media/vedurstofan/XMLthjonusta.pdf
-- API end point for future forecasts - https://xmlweather.vedur.is/?op_w=xml&type=forec&lang=is&view=xml&ids=1;422
-- API end point for current endpoints - https://xmlweather.vedur.is/?op_w=xml&type=obs&lang=en&view=xml&ids=1;422&params=T;D;F
+- Veður.is ReadMe - https://vedur.is/media/vedurstofan/XMLthjonusta.pdf
+- End point for future forecasts - https://xmlweather.vedur.is/?op_w=xml&type=forec&lang=is&view=xml&ids=1;422
+- End point for current weather - https://xmlweather.vedur.is/?op_w=xml&type=obs&lang=en&view=xml&ids=1;422&params=T;D;F
 
 # Further improvements 
 - Create a custom map for mobile experience, and where we can add all the stations to that custom map - instead of using iFrame from Vedur.is.
