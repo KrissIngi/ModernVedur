@@ -1,6 +1,8 @@
 # ModernVedur
 This project is for testing out the Veður.is API, and creating a simple web Razor web page by using .Net 9.0 as base.
 
+![]([https://github.com/Your_Repository_Name/Your_GIF_Name.gif](https://github.com/KrissIngi/ModernVedur/blob/master/ModernVedur/VedurShowcase.gif))
+
 # Requirements 
 - Visual Studio version 2022 prefered, any version should work.
 - .Net 9.0 frameworks installed
