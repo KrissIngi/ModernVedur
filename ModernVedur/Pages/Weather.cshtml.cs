@@ -43,7 +43,6 @@ namespace ModernVedur.Pages
             // No station ID provided; do not fetch data.
             if (StationId <= 0)
             {
-
                 return;
             }
 
@@ -59,7 +58,6 @@ namespace ModernVedur.Pages
                 var response = await httpClient.GetAsync(apiUrl);
                 if (response.IsSuccessStatusCode)
                 {
-
                     // Used for getting the current weather data for a particular weather station.
                     await getWeatherStationData(response);
 
